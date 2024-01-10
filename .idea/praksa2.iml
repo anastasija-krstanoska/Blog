@@ -86,6 +86,7 @@
       <excludeFolder url="file://$MODULE_DIR$/blog/vendor/spatie/flare-client-php" />
       <excludeFolder url="file://$MODULE_DIR$/blog/vendor/spatie/ignition" />
       <excludeFolder url="file://$MODULE_DIR$/blog/vendor/spatie/laravel-ignition" />
+      <excludeFolder url="file://$MODULE_DIR$/blog/vendor/spatie/yaml-front-matter" />
       <excludeFolder url="file://$MODULE_DIR$/blog/vendor/symfony/console" />
       <excludeFolder url="file://$MODULE_DIR$/blog/vendor/symfony/css-selector" />
       <excludeFolder url="file://$MODULE_DIR$/blog/vendor/symfony/deprecation-contracts" />

@@ -2,14 +2,35 @@
 
 namespace App\Models;
 
-use Faker\Core\File;
+use Illuminate\Support\Facades\File;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class Post
 {
+    public $title; //my first Post => my-first=post
+    public $excerpt;
+    public $date;
+    public $body;
+    public $slug;
+
+    /**
+     * @param $title
+     * @param $excerpt
+     * @param $date
+     * @param $body
+     */
+    public function __construct($title, $excerpt, $date, $body, $slug)
+    {
+        $this->title = $title;
+        $this->excerpt = $excerpt;
+        $this->date = $date;
+        $this->body = $body;
+        $this->slug = $slug;
+    }
+
     public static function all()  //find all JS
     {
-        $files = \Illuminate\Support\Facades\File::files(resource_path("posts/"));
+        $files = File::files(resource_path("posts/"));
 
         return array_map(fn($file) => $file->getContents(), $files);
     }

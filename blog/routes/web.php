@@ -1,7 +1,9 @@
 <?php
 
 use App\Models\Post;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
+use Spatie\YamlFrontMatter\YamlFrontMatter;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,8 +17,23 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+
+    $files = File::files(resource_path("posts"));
+    $posts = [];
+
+    foreach ($files as $file) {
+        $document = YamlFrontMatter::parseFile($file);
+
+        $posts[] = new Post(
+            $document->title,
+            $document->excerpt,
+            $document->date,
+            $document->body(),
+            $document->slug
+        );
+    }
     return view('posts', [
-        'posts' => Post::all()
+        'posts' => $posts
     ]);
 });
 
@@ -32,7 +49,7 @@ Route::get('posts/{post}', function ($slug) { //Find by ID
 
 //how to write better useful controller
 /*FINd a post by its slag and pass it to a view called POST
-  key words: View, Post | find a post and pass it to the view*/
+  keywords: View, Post | find a post and pass it to the view*/
 
 
 //this controller is working OK
@@ -49,3 +66,12 @@ Route::get('posts/{post}', function ($slug) { //Find by ID
         'post' => $post
     ]);
 })->where('post', '[A-z_\-]+');*/
+
+
+/*
+Route::get('/', function () {
+    $document = YamlFrontMatter::parseFile(
+        resource_path('posts/my-fourth-post.html')
+    );
+});*/
+//Controller working OK YamlFrontMatter , vrakja od html --- ddd ----
