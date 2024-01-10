@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,11 +15,28 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('posts');
+    return view('posts', [
+        'posts' => Post::all()
+    ]);
 });
 
 
-Route::get('posts/{post}', function ($slug) {
+Route::get('posts/{post}', function ($slug) { //Find by ID
+
+    return view('post', [
+        'post' => Post::find($slug)
+    ]);
+})->where('post', '[A-z_\-]+');
+
+
+
+//how to write better useful controller
+/*FINd a post by its slag and pass it to a view called POST
+  key words: View, Post | find a post and pass it to the view*/
+
+
+//this controller is working OK
+/*Route::get('posts/{post}', function ($slug) {
 
 
     if (!file_exists($path = __DIR__ . "/../resources/posts/{$slug}.html")) {
@@ -30,4 +48,4 @@ Route::get('posts/{post}', function ($slug) {
     return view('post', [
         'post' => $post
     ]);
-})->where('post', '[A-z_\-]+');
+})->where('post', '[A-z_\-]+');*/
