@@ -1,3 +1,5 @@
+Model do epizoda 19
+
 <?php
 
 namespace App\Models;
