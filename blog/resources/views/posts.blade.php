@@ -1,4 +1,25 @@
-@extends('layout')
+<x-layout>
+     @foreach ($posts as $post)
+
+        <article>
+            <h1>
+                <a href="/posts/{{$post->slug}}">
+                    {{ $post->title }}
+                </a>
+            </h1>
+            <div>
+                {{$post->excerpt}}
+            </div>
+
+        </article>
+    @endforeach
+
+</x-layout>
+
+{{--
+
+Bez papka components
+@extends('components.layout')
 @section('content')
     @foreach ($posts as $post)
 
@@ -17,7 +38,9 @@
 @endsection
 
 
+--}}
 {{--
 Namesto na sekoe da pisuvame Html moze da se pristapi od @extends('layout')
 
 --}}
+
