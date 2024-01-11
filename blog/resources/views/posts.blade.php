@@ -1,26 +1,23 @@
-<!doctortype html>
+@extends('layout')
+@section('content')
+    @foreach ($posts as $post)
 
-<title>My blg</title>
-<link rel="stylesheet" href="/app.css">
-<body>
+        <article>
+            <h1>
+                <a href="/posts/{{$post->slug}}">
+                    {{ $post->title }}
+                </a>
+            </h1>
+            <div>
+                {{$post->excerpt}}
+            </div>
 
-<title>Hello world</title>
+        </article>
+    @endforeach
+@endsection
 
 
-<body>
-<?php foreach ($posts as $post) : ?>
+{{--
+Namesto na sekoe da pisuvame Html moze da se pristapi od @extends('layout')
 
-<article>
-    <h1>
-        <a href="/posts/<?= $post->slug;?>">
-                <?= $post->title; ?>
-
-        </a>
-    </h1>
-    <div>
-            <?= $post->excerpt; ?>
-    </div>
-
-</article>
-<?php endforeach; ?>
-</body>
+--}}

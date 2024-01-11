@@ -18,19 +18,8 @@ use Spatie\YamlFrontMatter\YamlFrontMatter;
 
 Route::get('/', function () {
 
-
-    $posts = collect(File::files(resource_path("posts")))
-        ->map(fn($file) => YamlFrontMatter::parseFile($file))
-        ->map(fn($document) => new Post(
-            $document->title,
-            $document->excerpt,
-            $document->date,
-            $document->body(),
-            $document->slug
-        ));
-
     return view('posts', [
-        'posts' => $posts
+        'posts' => Post::all()
     ]);
 });
 
@@ -41,7 +30,6 @@ Route::get('posts/{post}', function ($slug) { //Find by ID
         'post' => Post::find($slug)
     ]);
 })->where('post', '[A-z_\-]+');
-
 
 
 //how to write better useful controller
@@ -72,3 +60,24 @@ Route::get('/', function () {
     );
 });*/
 //Controller working OK YamlFrontMatter , vrakja od html --- ddd ----
+
+
+//Coletion contoller
+
+Route::get('/Collection', function () {
+
+
+    $posts = collect(File::files(resource_path("posts")))
+        ->map(fn($file) => YamlFrontMatter::parseFile($file))
+        ->map(fn($document) => new Post(
+            $document->title,
+            $document->excerpt,
+            $document->date,
+            $document->body(),
+            $document->slug
+        ));
+
+    return view('posts', [
+        'posts' => $posts
+    ]);
+});
