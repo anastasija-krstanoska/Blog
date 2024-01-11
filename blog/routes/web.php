@@ -27,10 +27,30 @@ Route::get('/', function () {
 Route::get('posts/{post}', function ($slug) { //Find by ID
 
     return view('post', [
-        'post' => Post::find($slug)
+        'post' => Post::findOrFail($slug)
     ]);
-})->where('post', '[A-z_\-]+');
+});
 
+
+//Coletion contoller -> ne go koristam sega
+
+Route::get('/Collection', function () {
+
+
+    $posts = collect(File::files(resource_path("posts")))
+        ->map(fn($file) => YamlFrontMatter::parseFile($file))
+        ->map(fn($document) => new Post(
+            $document->title,
+            $document->excerpt,
+            $document->date,
+            $document->body(),
+            $document->slug
+        ));
+
+    return view('posts', [
+        'posts' => $posts
+    ]);
+});
 
 //how to write better useful controller
 /*FINd a post by its slag and pass it to a view called POST
@@ -62,22 +82,4 @@ Route::get('/', function () {
 //Controller working OK YamlFrontMatter , vrakja od html --- ddd ----
 
 
-//Coletion contoller
 
-Route::get('/Collection', function () {
-
-
-    $posts = collect(File::files(resource_path("posts")))
-        ->map(fn($file) => YamlFrontMatter::parseFile($file))
-        ->map(fn($document) => new Post(
-            $document->title,
-            $document->excerpt,
-            $document->date,
-            $document->body(),
-            $document->slug
-        ));
-
-    return view('posts', [
-        'posts' => $posts
-    ]);
-});
