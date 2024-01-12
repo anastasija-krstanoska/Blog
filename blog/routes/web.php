@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Post;
+use App\Models\Category;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
@@ -17,9 +18,8 @@ use Spatie\YamlFrontMatter\YamlFrontMatter;
 */
 
 Route::get('/', function () {
-
     return view('posts', [
-        'posts' => Post::all()
+        'posts' => Post::with('category')->get()
     ]);
 });
 
@@ -30,6 +30,16 @@ Route::get('posts/{post:slug}', function (Post $post) { //Find by ID
         'post' => $post
     ]);
 });
+
+
+Route::get('categories/{category:slug}', function (Category $category) {
+
+    return view('posts', [
+        'posts' => $category->posts
+    ]);
+});
+
+//stari
 
 Route::get('postSSS/{post}', function (Post $post) { //Find by ID
 
@@ -58,6 +68,8 @@ Route::get('/Collection', function () {
         'posts' => $posts
     ]);
 });
+
+
 
 //how to write better useful controller
 /*FINd a post by its slag and pass it to a view called POST

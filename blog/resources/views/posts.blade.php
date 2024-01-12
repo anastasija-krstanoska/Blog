@@ -1,5 +1,5 @@
 <x-layout>
-     @foreach ($posts as $post)
+    @foreach ($posts as $post)
 
         <article>
             <h1>
@@ -8,7 +8,9 @@
                 </a>
             </h1>
             <p>
-                <a href="#">{{$post->category->name}}</a>
+                <a href="/categories/{{ $post->category->slug }}">
+                    {{ $post->category->name }}
+                </a>
             </p>
             <div>
                 {{$post->excerpt}}
