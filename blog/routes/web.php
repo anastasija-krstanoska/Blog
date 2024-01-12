@@ -2,6 +2,7 @@
 
 use App\Models\Post;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
@@ -19,7 +20,7 @@ use Spatie\YamlFrontMatter\YamlFrontMatter;
 
 Route::get('/', function () {
     return view('posts', [
-        'posts' => Post::with('category')->get()
+        'posts' => Post::latest()->get()//->with('category', 'author')->get()
     ]);
 });
 
@@ -35,70 +36,12 @@ Route::get('posts/{post:slug}', function (Post $post) { //Find by ID
 Route::get('categories/{category:slug}', function (Category $category) {
 
     return view('posts', [
-        'posts' => $category->posts
+        'posts' => $category//->posts->load(['category','author'])
     ]);
 });
 
-//stari
-
-Route::get('postSSS/{post}', function (Post $post) { //Find by ID
-
-    return view('post', [
-        'post' => $post
-    ]);
-});
-
-
-//Coletion contoller -> ne go koristam sega
-
-Route::get('/Collection', function () {
-
-
-    $posts = collect(File::files(resource_path("posts")))
-        ->map(fn($file) => YamlFrontMatter::parseFile($file))
-        ->map(fn($document) => new Post(
-            $document->title,
-            $document->excerpt,
-            $document->date,
-            $document->body(),
-            $document->slug
-        ));
-
+Route::get('authors/{author:username}', function (User $author) {
     return view('posts', [
-        'posts' => $posts
+        'posts' => $author->posts//->load(['category','author'])
     ]);
 });
-
-
-
-//how to write better useful controller
-/*FINd a post by its slag and pass it to a view called POST
-  keywords: View, Post | find a post and pass it to the view*/
-
-
-//this controller is working OK
-/*Route::get('posts/{post}', function ($slug) {
-
-
-    if (!file_exists($path = __DIR__ . "/../resources/posts/{$slug}.html")) {
-        return redirect('/');
-    }
-
-    $post = cache()->remember("posts.{$slug}", 1200, fn() => file_get_contents($path));
-
-    return view('post', [
-        'post' => $post
-    ]);
-})->where('post', '[A-z_\-]+');*/
-
-
-/*
-Route::get('/', function () {
-    $document = YamlFrontMatter::parseFile(
-        resource_path('posts/my-fourth-post.html')
-    );
-});*/
-//Controller working OK YamlFrontMatter , vrakja od html --- ddd ----
-
-
-
