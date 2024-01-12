@@ -24,10 +24,17 @@ Route::get('/', function () {
 });
 
 
-Route::get('posts/{post}', function ($id) { //Find by ID
+Route::get('posts/{post:slug}', function (Post $post) { //Find by ID
 
     return view('post', [
-        'post' => Post::findOrFail($id)
+        'post' => $post
+    ]);
+});
+
+Route::get('postSSS/{post}', function (Post $post) { //Find by ID
+
+    return view('post', [
+        'post' => $post
     ]);
 });
 
