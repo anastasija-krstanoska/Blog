@@ -1,0 +1,7 @@
+{
+  "compailerOptions": {
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}
